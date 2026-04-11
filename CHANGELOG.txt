@@ -1,3 +1,9 @@
+2.1.2 - April 11, 2026
+----------------------
+
+- #49 - Fix ObfuscatedMethodCall::operator() - Missing object parameter o
+- #47 - Fix ObfuscatedCall can throw at runtime for valid key
+
 2.1.1 - December 11, 2025
 -------------------------
 
