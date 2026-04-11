@@ -35,6 +35,20 @@ cmake --build .
 
 Each example is in its subdirectory. For example `./example/demo`.
 
+### Clang in Docker
+
+```
+docker build -t advobfuscator-clang -f docker/clang.docker .
+docker run --rm -it advobfuscator-clang:latest
+```
+
+### GCC in Docker
+
+```
+docker build -t advobfuscator-gcc -f docker/gcc.docker .
+docker run --rm -it advobfuscator-gcc:latest
+```
+
 ### Windows (Visual Studio)
 
 Open `ADVobfuscator.sln`.
