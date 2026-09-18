@@ -29,6 +29,7 @@
 #define ADVOBFUSCATOR_CALL_H
 
 #include <functional>
+#include <utility>
 #include "fsm.h"
 
 namespace andrivet::advobfuscator {
@@ -40,14 +41,14 @@ namespace andrivet::advobfuscator {
     }
 
     template<typename... Args>
-    decltype(auto) operator()(std::uint32_t value, Args... args) const {
+    decltype(auto) operator()(std::uint32_t value, Args&&... args) const {
       auto fn = fsm_.run(value);
-      if constexpr (std::is_void_v<decltype(std::invoke(fn, args...))>) {
+      if constexpr (std::is_void_v<decltype(std::invoke(fn, std::forward<Args>(args)...))>) {
         std::invoke(fn, args...);
         return;
       }
       else
-        return std::invoke(fn, args...);
+        return std::invoke(fn, std::forward<Args>(args)...);
     }
 
     Fsm<F> fsm_;
@@ -60,14 +61,14 @@ namespace andrivet::advobfuscator {
     }
 
     template<typename O, typename... Args>
-    decltype(auto) operator()(std::uint32_t value, O o, Args... args) const {
+    decltype(auto) operator()(std::uint32_t value, O&& o, Args&&... args) const {
       auto fn = fsm_.run(value);
-      if constexpr (std::is_void_v<decltype(std::invoke(fn, o, args...))>) {
-        std::invoke(fn, o, args...);
+      if constexpr (std::is_void_v<decltype(std::invoke(fn, std::forward<O>(o), std::forward<Args>(args)...))>) {
+        std::invoke(fn, std::forward<O>(o), std::forward<Args>(args)...);
         return;
       }
       else
-        return std::invoke(fn, o, args...);
+        return std::invoke(fn, std::forward<O>(o), std::forward<Args>(args)...);
     }
 
     Fsm<F> fsm_;
